@@ -1,0 +1,24 @@
+<launch>
+
+    <arg name="base_frame_name" default="base_link"/>
+    <arg name="map_frame_name" default="map_link"/>
+    <arg name="odom_frame_name" default="odom"/>
+    <arg name="laser_frame_name" default="camera_link"/>
+    
+    <arg name="laser_topic_name" default=""/>
+
+    <node pkg="tf" type="static_transform_publisher" name="sepanta_laser_to_base" output="screen"
+        args="0.15 0 0 0 0 0 1 $(arg base_frame_name) $(arg laser_frame_name) 30"
+    />
+
+  <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_2_laserscan">
+    <remap from="image" to="/camera/depth_registered/image_raw"/>
+  </node>
+
+    <node pkg="tf" type="static_transform_publisher" name="broadcaster_map_map_link" output="screen"
+        args="0 0 0 0 0 0 1 map map_link 100"
+    />
+
+   
+ 
+</launch>
